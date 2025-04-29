@@ -1,68 +1,28 @@
 const chat = document.getElementById("chat");
-let ultimaIntencao = null;
-let estadoConversa = null;
 
 const respostas = {
-  "manutenção": "A manutenção dos celulares acontece quando há algum problema com o aparelho. Gostaria de solicitar uma manutenção?",
+  "manutenção": "Claro! Você quer registrar uma manutenção? Posso te ajudar com isso.",
+  "recebimento": "Você selecionou Recebimento. Deseja registrar a chegada de algum item?",
+  "expedição": "Você selecionou Expedição. Qual informação você precisa?",
+  "transporte": "Você selecionou Transporte. Deseja registrar ou consultar algum envio?"
 };
 
-const respostasContinuidade = {
-  "manutenção": "Certo, me passe seu nome completo por gentileza e o número do imobilizado do celular para identificação.",
-};
-
-const afirmacoes = ["sim", "sim, por favor", "sim gostaria", "sim, gostaria, por favor", "gostaria sim", "quero", "desejo"];
+function iniciarConversa(topico) {
+  const resposta = respostas[topico] || "Desculpe, não entendi esse tópico.";
+  addMessage("Você", `Opção escolhida: ${topico}`, "user");
+  setTimeout(() => {
+    addMessage("Assistente", resposta, "bot");
+  }, 500);
+}
 
 function sendMessage() {
   const input = document.getElementById("userInput");
-  const msgOriginal = input.value.trim();
-  const msg = msgOriginal.toLowerCase();
+  const msg = input.value.trim().toLowerCase();
   if (!msg) return;
-
-  addMessage("Você", msgOriginal, "user");
-
-  let resposta = "Desculpe, não entendi. Pode reformular?";
-  let encontrou = false;
-
-  if (estadoConversa === "aguardandoDados") {
-    const imobilizado = msgOriginal.match(/\d{6,}/); 
-    const nome = msgOriginal.match(/[A-Z][a-z]+/); 
-
-    if (imobilizado && nome) {
-      resposta = `Obrigado ${nome[0]}, sua solicitação de manutenção para o celular com o imobilizado ${imobilizado[0]} foi registrada.`;
-    } else {
-      resposta = "Por favor, informe o nome com a primeira letra maiúscula e o número do imobilizado com pelo menos 6 dígitos.";
-    }
-
-    estadoConversa = null;
-    ultimaIntencao = null;
-    encontrou = true;
-  }
-
-  else if (estadoConversa === "aguardandoConfirmacao") {
-    for (const afirmacao of afirmacoes) {
-      if (msg.includes(afirmacao)) {
-        resposta = respostasContinuidade[ultimaIntencao];
-        estadoConversa = "aguardandoDados";
-        encontrou = true;
-        break;
-      }
-    }
-  }
- 
-  else {
-    for (const chave in respostas) {
-      if (msg.includes(chave)) {
-        resposta = respostas[chave];
-        ultimaIntencao = chave;
-        estadoConversa = "aguardandoConfirmacao";
-        encontrou = true;
-        break;
-      }
-    }
-  }
+  addMessage("Você", msg, "user");
 
   setTimeout(() => {
-    addMessage("Assistente", resposta, "bot");
+    addMessage("Assistente", "carma la", "bot");
   }, 500);
 
   input.value = "";

@@ -6,11 +6,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="chat-container">
     <div id="chat" class="chat-box"></div>
+
+    <div id="topicos" class="topicos">
+      <button onclick="iniciarConversa('manutenção')">Manutenção</button>
+      <button onclick="iniciarConversa('recebimento')">Recebimento</button>
+      <button onclick="iniciarConversa('expedição')">Expedição</button>
+      <button onclick="iniciarConversa('transporte')">Transporte</button>
+    </div>
+
     <div id="inputArea" class="input-area">
-      <input type="text" id="userInput" placeholder="Digite sua pergunta..." />
+      <input id="userInput" type="text" placeholder="Digite uma mensagem..." />
       <button onclick="sendMessage()">Enviar</button>
     </div>
   </div>
