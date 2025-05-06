@@ -24,10 +24,12 @@ body {
 }
 
 header {
-  background-color: #6c63ff;
-  padding: 20px;
-  text-align: center;
+  background: #2E75B6;
   color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 header h1 {
@@ -67,7 +69,7 @@ header h1 {
 }
 
 .bot {
-  background-color: #f0f0f0;
+  background-color: #D4EDDA;
   align-self: flex-start;
 }
 
@@ -79,18 +81,19 @@ header h1 {
 }
 
 .option-button {
-  background-color: #6c63ff;
-  color: white;
+  background-color: rgba(217, 211, 211, 0.5);
+  color: black;
   border: none;
   padding: 12px;
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-weight: bold;
 }
 
 .option-button:hover {
-  background-color: #5549d0;
+  background-color: #2E75B6;
 }
 
 .input-container {
@@ -109,7 +112,7 @@ header h1 {
 }
 
 .input-container button {
-  background-color: #6c63ff;
+  background-color: #2E75B6;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -130,7 +133,7 @@ footer {
 }
 
 #clearChatButton {
-  background-color: #ff5c5c;
+  background-color: #FA8072;
   color: white;
   border: none;
   padding: 10px 16px;

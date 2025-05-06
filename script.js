@@ -77,9 +77,9 @@ function etapaInicial(topico) {
 
     const subOptions = [
       { label: "Ajuda", value: "ajuda" },
-      { label: "Problema", value: "problema" },
-      { label: "Atendimento", value: "atendimento" },
-      { label: "Suporte", value: "suporte" }
+      { label: "Incidente", value: "Incidente" },
+      { label: "Suporte tecnico", value: "Suporte tecnico" },
+      { label: "Material Treinamento", value: "Material Treinamento" }
     ];
 
     addOptionsButtons(subOptions, etapaFinal);
@@ -108,10 +108,10 @@ function sendMessage() {
       addMessage("Assistente", resposta, "bot");
 
       const primeiraEtapa = [
-        { label: "Outros", value: "outros" },
         { label: "Recebimento", value: "recebimento" },
-        { label: "Expedição", value: "expedição" },
-        { label: "Transporte", value: "transporte" }
+        { label: "transporte", value: "transporte" },
+        { label: "Expedição", value: "Expedição" },
+        { label: "Outros", value: "Outros" }
       ];
 
       addOptionsButtons(primeiraEtapa, etapaInicial);
@@ -134,3 +134,16 @@ document.getElementById("userInput").addEventListener("keypress", function(event
 function clearChat() {
   document.getElementById("chat").innerHTML = "";
 }
+
+function etapaFinal(opcao) {
+  addMessage("Você", `Opção escolhida: ${opcao}`, "user");
+  setTimeout(() => {
+    if (opcao === "Material Treinamento") {
+      const materialLink = "http://portal.coamo.com.br/logistica-operacoes/gelog/COAMO%20APPLOG/03%20-%20Treinamentos/GELOG%20-%20APPLOG%20-%20Manual%20de%20Utiliza%C3%A7%C3%A3o%20-%20Coordena%C3%A7%C3%A3o%20Projetos%20Log%C3%ADsticos_R4.pdf";
+      addMessage("Assistente", `Aqui está o material de treinamento APPLOG: <a href="${materialLink}" target="_blank">Clique aqui para acessar</a>`, "bot");
+    } else {
+      addMessage("Assistente", `Você escolheu "${opcao}". Em breve entraremos em contato ou forneceremos mais informações.`, "bot");
+    }
+  }, 500);
+}
+
