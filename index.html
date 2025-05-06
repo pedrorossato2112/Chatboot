@@ -10,15 +10,16 @@
     <div id="chat" class="chat-box"></div>
 
     <div id="topicos" class="topicos">
+      <button onclick="iniciarConversa('outros')">Outros</button>
       <button onclick="iniciarConversa('recebimento')">Recebimento</button>
       <button onclick="iniciarConversa('expedição')">Expedição</button>
       <button onclick="iniciarConversa('transporte')">Transporte</button>
-      <button onclick="iniciarConversa('Outros')">Outros</button>
     </div>
 
     <div id="inputArea" class="input-area">
       <input id="userInput" type="text" placeholder="Digite uma mensagem..." />
       <button onclick="sendMessage()">Enviar</button>
+      <button onclick="limparHistorico()">Limpar Histórico</button>
     </div>
   </div>
 
