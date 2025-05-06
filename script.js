@@ -1,17 +1,95 @@
-const chat = document.getElementById("chat");
-
-const respostas = {
-  "outros": "Você escolheu Outros. Qual tipo de ajuda você precisa?",
-  "recebimento": "Você selecionou Recebimento. Deseja registrar a chegada de algum item?",
-  "expedição": "Você selecionou Expedição. Qual informação você precisa?",
-  "transporte": "Você selecionou Transporte. Deseja registrar ou consultar algum envio?"
+const cumprimentos = {
+  "oi": [
+    "oi", "oie", "oii", "oiii", "oiiii", "ooi", "oooi", "oooie", "ooii",
+    "oi oi", "oi, oi", "oi oi oi", "oieee", "oiie", "oiiee", "oiiiiie",
+    "ooiee", "oi tudo bem", "oi, tudo bem?", "oi, td bem?", "oi td bem",
+    "oi td", "oi td bom", "oi, beleza?", "oi beleza", "oi, tranquilo?",
+    "oi tranquilo", "oi eae", "oi e aí", "eai", "e aí", "eaí", "e aee",
+    "eaee", "e aii", "fala", "falae", "fala aí", "fala ai", "falaa",
+    "falaaê", "falaa aí", "fala comigo", "fala cmg", "fala chat", "opa",
+    "opa oi", "opa tudo certo?", "opa beleza", "opa chat", "opa, bom dia",
+    "opa, boa tarde", "opa, boa noite", "opa tudo bom", "opa td bom",
+    "opa td bem", "ola", "olá", "olaaa", "olááá", "olaaa", "olaa", 
+    "ola chat", "olá chat", "ola tudo bem", "olá tudo bem?", 
+    "ola, td bem?", "bom dia", "bom diaa", "booom dia", "bom diaaa",
+    "boa tarde", "boaa tarde", "boa tarrrde", "boa tarde chat", 
+    "boa noite", "boaaa noite", "boa noit", "boa noitee", 
+    "boa noite chat", "e aí, beleza?", "fala, beleza?", 
+    "fala, tudo certo?", "cheguei", "cheguei chat", "cheguei!", 
+    "alô", "aloo", "alôôô", "alooo", "alou", "alow", "alou chat", "chat", "Opa"
+  ]
 };
 
-function iniciarConversa(topico) {
-  const resposta = respostas[topico] || "Desculpe, não entendi esse tópico.";
+const respostasCumprimentos = [
+  "Olá! Como posso te ajudar hoje?",
+  "Oi! Em que posso ser útil?",
+  "Olá, tudo bem? Vamos começar!",
+  "Oi! Pronto para te ajudar."
+];
+
+function normalizarMensagem(msg) {
+  const mensagem = msg.trim().toLowerCase();
+  for (let cumprimento in cumprimentos) {
+    if (cumprimentos[cumprimento].includes(mensagem)) {
+      return cumprimento;
+    }
+  }
+  return mensagem;
+}
+
+function addMessage(sender, text, type) {
+  const chat = document.getElementById("chat");
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("msg", type);
+  messageElement.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  chat.appendChild(messageElement);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function clearButtons() {
+  const buttons = document.querySelectorAll(".buttons-container");
+  buttons.forEach(b => b.remove());
+}
+
+function addOptionsButtons(options, callback) {
+  clearButtons();
+  const chat = document.getElementById("chat");
+  const buttonsContainer = document.createElement("div");
+  buttonsContainer.classList.add("buttons-container");
+
+  options.forEach(option => {
+    const button = document.createElement("button");
+    button.classList.add("option-button");
+    button.innerText = option.label;
+    button.onclick = () => callback(option.value);
+    buttonsContainer.appendChild(button);
+  });
+
+  chat.appendChild(buttonsContainer);
+}
+
+function etapaInicial(topico) {
   addMessage("Você", `Opção escolhida: ${topico}`, "user");
+
+  const resposta = `Certo, você selecionou a opção ${topico}. Escolha abaixo o que deseja:`;
   setTimeout(() => {
     addMessage("Assistente", resposta, "bot");
+
+    const subOptions = [
+      { label: "Ajuda", value: "ajuda" },
+      { label: "Problema", value: "problema" },
+      { label: "Atendimento", value: "atendimento" },
+      { label: "Suporte", value: "suporte" }
+    ];
+
+    addOptionsButtons(subOptions, etapaFinal);
+  }, 500);
+}
+
+function etapaFinal(opcao) {
+  addMessage("Você", `Opção escolhida: ${opcao}`, "user");
+  setTimeout(() => {
+    addMessage("Assistente", `Você escolheu "${opcao}". Em breve entraremos em contato ou forneceremos mais informações.`, "bot");
   }, 500);
 }
 
@@ -19,45 +97,40 @@ function sendMessage() {
   const input = document.getElementById("userInput");
   const msg = input.value.trim();
   if (!msg) return;
+
+  const msgNormalizada = normalizarMensagem(msg);
+
   addMessage("Você", msg, "user");
 
-  setTimeout(() => {
-    addMessage("Assistente", "carma la", "bot");
-  }, 500);
+  if (msgNormalizada === "oi") {
+    const resposta = respostasCumprimentos[Math.floor(Math.random() * respostasCumprimentos.length)];
+    setTimeout(() => {
+      addMessage("Assistente", resposta, "bot");
+
+      const primeiraEtapa = [
+        { label: "Outros", value: "outros" },
+        { label: "Recebimento", value: "recebimento" },
+        { label: "Expedição", value: "expedição" },
+        { label: "Transporte", value: "transporte" }
+      ];
+
+      addOptionsButtons(primeiraEtapa, etapaInicial);
+    }, 500);
+  } else {
+    setTimeout(() => {
+      addMessage("Assistente", "Desculpe, não entendi. Pode tentar de outra forma?", "bot");
+    }, 500);
+  }
 
   input.value = "";
 }
 
-function addMessage(autor, texto, classe) {
-  const msg = document.createElement("div");
-  msg.classList.add("msg", classe);
-  msg.innerText = `${autor}: ${texto}`;
-  chat.appendChild(msg);
-  chat.scrollTop = chat.scrollHeight;
+document.getElementById("userInput").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+});
 
-  salvarMensagem(autor, texto, classe);
+function clearChat() {
+  document.getElementById("chat").innerHTML = "";
 }
-
-function salvarMensagem(autor, texto, classe) {
-  const historico = JSON.parse(localStorage.getItem("historicoChat")) || [];
-  historico.push({ autor, texto, classe });
-  localStorage.setItem("historicoChat", JSON.stringify(historico));
-}
-
-function carregarMensagens() {
-  const historico = JSON.parse(localStorage.getItem("historicoChat")) || [];
-  historico.forEach(msg => {
-    const div = document.createElement("div");
-    div.classList.add("msg", msg.classe);
-    div.innerText = `${msg.autor}: ${msg.texto}`;
-    chat.appendChild(div);
-  });
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function limparHistorico() {
-  localStorage.removeItem("historicoChat");
-  chat.innerHTML = "";
-}
-
-carregarMensagens();
