@@ -1,7 +1,7 @@
 const chat = document.getElementById("chat");
 
 const respostas = {
-  "manutenção": "Claro! Você quer registrar uma manutenção? Posso te ajudar com isso.",
+  "outros": "Você escolheu Outros. Qual tipo de ajuda você precisa?",
   "recebimento": "Você selecionou Recebimento. Deseja registrar a chegada de algum item?",
   "expedição": "Você selecionou Expedição. Qual informação você precisa?",
   "transporte": "Você selecionou Transporte. Deseja registrar ou consultar algum envio?"
@@ -17,7 +17,7 @@ function iniciarConversa(topico) {
 
 function sendMessage() {
   const input = document.getElementById("userInput");
-  const msg = input.value.trim().toLowerCase();
+  const msg = input.value.trim();
   if (!msg) return;
   addMessage("Você", msg, "user");
 
@@ -34,4 +34,30 @@ function addMessage(autor, texto, classe) {
   msg.innerText = `${autor}: ${texto}`;
   chat.appendChild(msg);
   chat.scrollTop = chat.scrollHeight;
+
+  salvarMensagem(autor, texto, classe);
 }
+
+function salvarMensagem(autor, texto, classe) {
+  const historico = JSON.parse(localStorage.getItem("historicoChat")) || [];
+  historico.push({ autor, texto, classe });
+  localStorage.setItem("historicoChat", JSON.stringify(historico));
+}
+
+function carregarMensagens() {
+  const historico = JSON.parse(localStorage.getItem("historicoChat")) || [];
+  historico.forEach(msg => {
+    const div = document.createElement("div");
+    div.classList.add("msg", msg.classe);
+    div.innerText = `${msg.autor}: ${msg.texto}`;
+    chat.appendChild(div);
+  });
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function limparHistorico() {
+  localStorage.removeItem("historicoChat");
+  chat.innerHTML = "";
+}
+
+carregarMensagens();
