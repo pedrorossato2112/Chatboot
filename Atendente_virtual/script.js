@@ -124,6 +124,10 @@ function sendMessage() {
 
   input.value = "";
 }
+document.getElementById("btnAjuda").addEventListener("click", function() {
+  window.location.href = "Atendente_Real/index.html";
+});
+
 
 document.getElementById("userInput").addEventListener("keypress", function(event) {
   if (event.key === "Enter") {

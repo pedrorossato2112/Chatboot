@@ -1,0 +1,130 @@
+/* Resetando alguns estilos padrão do navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  flex-direction: column;
+}
+
+/* Container do chat */
+#chat-container {
+  background-color: #fff;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  max-height: 100vh;
+}
+
+/* Cabeçalho do chat */
+header {
+  background-color: #7670B3; /* Cor roxa */
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Área de mensagens */
+#chat {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  height: calc(100% - 80px); /* Altura do chat menos a área do cabeçalho e rodapé */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Estilos das mensagens */
+.msg {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.msg.user {
+  background-color: #e1e1e1;
+  margin-left: auto;
+  text-align: right;
+}
+
+.msg.bot {
+  background-color: #dfe8fd;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Área de entrada de mensagens */
+.input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  justify-content: space-between;
+}
+
+#userInput {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 15%;
+  padding: 10px;
+  background-color: #7670B3; /* Cor roxa */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #5a5291; /* Cor roxa mais escura no hover */
+}
+
+/* Rodapé com o botão de limpar */
+footer {
+  padding: 10px;
+  background-color: #fff;
+  text-align: center;
+}
+
+#clearChatButton {
+  padding: 8px 20px;
+  background-color: #ff4e4e; /* Vermelho para o botão de limpar */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#clearChatButton:hover {
+  background-color: #d43f3f; /* Cor mais escura para o hover */
+}
