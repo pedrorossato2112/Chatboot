@@ -1,4 +1,3 @@
-// Exemplo básico de interação
 function sendMessage() {
   const input = document.getElementById("userInput");
   const msg = input.value.trim();
@@ -11,7 +10,6 @@ function sendMessage() {
   chat.appendChild(messageElement);
   chat.scrollTop = chat.scrollHeight;
 
-  // A lógica de resposta do atendente pode ser personalizada aqui
   setTimeout(() => {
     const responseElement = document.createElement("div");
     responseElement.classList.add("msg", "bot");
